@@ -1,4 +1,4 @@
-// 2026.1.10
+// 2026.1.12
 
 #include <stdio.h>
 #include <string.h>
@@ -23,25 +23,29 @@ void IntroduceAuthor();
 void StartGame();
 int SearchNumber(char [], char []);
 void Qsort(int arr[], int low, int high);
+int SignAgain();
 
 int main() {
     char ch;
     FirstShow();
-    printf("start!\n");
-    sleep(1);
-    StartGame();
     do {
-        printf("是否还要再来一轮？(按c继续，按q退出...)\n");
-        getchar();
-        ch = getchar();
-        if(ch == 'c') {
-            printf("start!\n");
-            sleep(1);
-            StartGame();
-        }
-    }while(ch != 'q'); 
+        printf("start!\n");
+        sleep(1);
+        StartGame();
+    } while(SignAgain());
     ExitGame();
     exit(EXIT_SUCCESS);
+}
+
+int SignAgain() {
+    char ch;
+    printf("是否还要再来一轮？(按任意键继续，按q退出...)\n");
+    getchar();
+    ch = getchar();
+    if(ch == 'q') {
+        return 0;
+    }
+    return 1;
 }
 
 void Qsort(int arr[], int low, int high) {
@@ -86,15 +90,11 @@ int SearchNumber(char nums[], char pnums[]) {
 void StartGame() {
     srand(time(NULL));
     int cnt = 0;
-    int min = 10000, max = 99999;
-    int number = rand() % (max - min + 1) + min;
     char nums[10], pnums[10];
     int snums[5];
-    int tmp = number;
     for(int i = 4; i >= 0; i--) {
-        nums[i] = '0' + (tmp % 10);
-        snums[i] = tmp % 10;
-        tmp /= 10;
+        snums[i] = rand() % 10;
+        nums[i] = snums[i] + '0';
     }
     nums[5] = '\0';
     printf("已生成数字!\n");
@@ -154,7 +154,7 @@ void IntroduceGame() {
 }
 
 void ExitGame() {
-    printf("游戏已退出...");
+    printf("游戏已退出...\n");
     printf("感谢您的游玩，我们下次再见...\n");
     exit(EXIT_SUCCESS);
 }
